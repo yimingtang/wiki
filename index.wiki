@@ -1,20 +1,25 @@
 = Yiming Tang's personal wiki =
+
 ==Programmming==
+
 * [[programming/c|C学习笔记]]
 * [[programming/python|Python学习笔记]]
 * [[programming/network_programming|Network Programming]]
+
 ==Course Note==
+
 * [[course/linux_course_note|Linux程序设计]]
 * [[course/web_course_note|面向web的计算]]
 * [[course/ims_note|管理信息系统]]
 * [[course/android_note|Android移动互联网]]
 * [[course/testing_note|软件测试]]
+
 ==Blog==
+
 * [[blog/hp_veer_and_webos_2|看上去很美——HP Veer和传说中的webOS（二）]]
 * [[blog/share_web_dev_tools|一些好用的HTML、CSS开发工具]]
 * [[blog/vimwiki|个人知识管理工具：vimwiki]]
 * [[blog/test|Test]]
-
 
 ==Diary==
 
