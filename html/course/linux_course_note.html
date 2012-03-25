@@ -9,5 +9,447 @@
 
 <h1 id="toc_1"> Linux笔记</h1>
 
+<h2 id="toc_1.1">1 Linux基础与使用——了解</h2>
+
+<h3 id="toc_1.1.1">1.1 Linux&amp; UNIX; UNIX 标准化；UNIX哲学</h3>
+
+<ul>
+<li>
+一些缩写：GPL，BSD，POSIX，VFS
+
+<li>
+了解：GNU与Linux
+
+</ul>
+
+<h3 id="toc_1.1.2">1.2 UNIX的系统结构</h3>
+
+<ul>
+<li>
+Two interfaces
+
+<li>
+文件管理子系统和进程管理子系统
+
+</ul>
+
+<h3 id="toc_1.1.3">1.3 Linux的目录树</h3>
+
+<ul>
+<li>
+FHS 重要目录：/home: /bin: /sbin: /usr: /dev: /etc: /proc:
+
+<li>
+环境变量：PATH, HOME, etc (export命令)
+
+</ul>
+
+<h3 id="toc_1.1.4">1.4 常用命令与工具</h3>
+
+<ul>
+<li>
+文件操作：touch, mkdir, ls, more, mv, chmod, tar, find, grep, ar, dd;
+
+<li>
+进程管理：ps, pstree, kill, nice, jobs, fg, bg;
+
+<li>
+编辑器：vi, emacs;
+
+<li>
+编译、链接、调试：gcc, gdb, make工具
+
+<li>
+库管理工具：ar
+
+<li>
+用man和info查看帮助
+
+</ul>
+
+<h2 id="toc_1.2">2 Shell Programming</h2>
+
+<h3 id="toc_1.2.1">2.1 执行shell脚本的几种方式</h3>
+<blockquote>
+built-in command
+</blockquote>
+
+<h3 id="toc_1.2.2">2.2 管道和重定向；后台执行</h3>
+
+<h3 id="toc_1.2.3">2.3 变量；简单的语句：条件测试（test），分支控制(if, case)，循环语句（for, while)</h3>
+
+<h3 id="toc_1.2.4">2.4 语句块： &amp;&amp;, || 等</h3>
+
+<h3 id="toc_1.2.5">2.5 Shell的实现</h3>
+
+<h2 id="toc_1.3">3 文件操作管理——基础</h2>
+
+<h3 id="toc_1.3.1">3.1 文件系统</h3>
+
+<ul>
+<li>
+VFS; 7种文件类型；文件结构（无结构的字符流）；目录；
+
+<li>
+索引节点（i-node）
+
+<li>
+链接与符号链接（ln，ln -S）
+
+<li>
+可装卸的文件系统（mount/umount）
+
+</ul>
+
+<h3 id="toc_1.3.2">3.2 常用系统调用</h3>
+
+<ul>
+<li>
+基本操作：open，close，read，write，lseek
+
+<li>
+dup，dup2 （多进程，重定向）
+
+<li>
+fcntl（改变文件的属性，如阻塞/非阻塞等；文件中的区域锁）
+
+</ul>
+
+<h3 id="toc_1.3.3">3.3 与文件属性相关的操作</h3>
+
+<ul>
+<li>
+stat/lstat/fstat函数和struct stat结构
+
+<li>
+umask, chmod, chown等
+
+</ul>
+
+<h3 id="toc_1.3.4">3.4 与目录相关的操作</h3>
+
+<ul>
+<li>
+目录也是文件（DIR结构，对应文件流之FILE结构）；目录项（struct dirent）
+
+<li>
+opendir/closedir, readdir, telldir, seekdir
+
+</ul>
+
+<h3 id="toc_1.3.5">3.5 标准I/O库</h3>
+
+<ul>
+<li>
+流的打开和关闭： fopen，fclose
+
+<li>
+流的读写：fread，fwrite
+
+<li>
+刷新流：fflush
+
+<li>
+流的定位：fseek
+
+<li>
+单字节输入输出：fgetc/getc/getchar, fputc/putc/putchar
+
+<li>
+格式化输入输出：scanf/fscanf/sscanf, printf/fprintf/sprintf
+
+</ul>
+
+<h3 id="toc_1.3.6">3.6 文件流和文件描述符的关系</h3>
+
+<ul>
+<li>
+int fileno(FILE *fp);
+
+<li>
+FILE *fdopen(int fildes, const char *mode);
+
+</ul>
+
+<h2 id="toc_1.4">4 数据管理及其他——了解</h2>
+
+<h3 id="toc_1.4.1">4.1 UNIX的变成风格和错误处理</h3>
+
+<p>
+extern int error; perror函数
+</p>
+
+<h3 id="toc_1.4.2">4.2 锁文件和文件的区域锁</h3>
+
+<p>
+open 系统调用 O_EXCL选项， fcntl
+</p>
+
+<h3 id="toc_1.4.3">4.3 系统数据文件</h3>
+
+<ul>
+<li>
+/etc/passwd, /etc/group, /etc/shadow, /etc/services 等
+
+<li>
+passwd命令的特殊性
+
+</ul>
+
+<h2 id="toc_1.5">5 进程管理</h2>
+
+<h3 id="toc_1.5.1">5.1 基础知识</h3>
+
+<ul>
+<li>
+什么是进程；进程控制块(Linux 源代码中struct task_struct 数据结构) 回顾、复习、了解
+
+<li>
+进程的启动和终止(main函数，C程序的内存布局，exit和_exit)
+
+<li>
+ps和pstree命令，init进程
+
+</ul>
+
+<h3 id="toc_1.5.2">5.2 四个基本的系统调用</h3>
+
+<ul>
+<li>
+fork, exec, wait, exit; 编写一个简单的shell
+
+<li>
+Zombie的出现和消除
+
+</ul>
+
+<h3 id="toc_1.5.3">5.3 Question：父子进程间的race condition怎么解决？</h3>
+
+<ul>
+<li>
+信号的解决方案，pipe的解决方案
+
+<li>
+Semaphore的解决方案
+
+</ul>
+
+<h3 id="toc_1.5.4">5.4 信号的概念</h3>
+
+<ul>
+<li>
+一些常用的信号（ctrl-c: SIGINT; ctrl-\: SIGQUIT; ctrl-z: SIGTSTP)
+
+<li>
+对信号的处理方式（3种）：忽略信号（不能忽略的信号：SIGKILL， SIGSTOP；一些硬件异常信号）；捕捉信号；执行系统默认动作
+
+</ul>
+
+<h3 id="toc_1.5.5">5.5 关于信号的系统调用</h3>
+
+<ul>
+<li>
+signal, sigaction;
+
+<li>
+kill, raise; alarm, pause (kill函数和kill命令)
+
+<li>
+理解：进入信号阻塞、信号集(sigset_t)的概念，信号掩码
+
+<li>
+sigprocmask, sigpending, sigsuspend, sigaction （用信号机制解决race condition)
+
+</ul>
+
+<h2 id="toc_1.6">6 进程间通信</h2>
+
+<h3 id="toc_1.6.1">6.1 进程通信的方法？ 广义为——</h3>
+
+<ul>
+<li>
+共享文件
+
+<li>
+父子进程间的wait/exit
+
+<li>
+信号
+
+<li>
+pipe
+
+<li>
+FIFO
+
+<li>
+System V IPC (semaphore set, message queue, shared memory)
+
+<li>
+socket
+
+</ul>
+
+<h3 id="toc_1.6.2">6.2 管道</h3>
+
+<ul>
+<li>
+系统调用pipe（先pipe后fork）；管道的读写（同步）
+
+<li>
+Question：用pipe实现popen，pclose；用pipe实现shell中的重定向和管道；
+
+</ul>
+
+<h3 id="toc_1.6.3">6.3 命名管道</h3>
+
+<ul>
+<li>
+mkfifo(mknod) 命令和mkfifo(mknod)函数
+
+<li>
+FIFO 的打开和读写（同步）
+
+<li>
+用FIFO实现C/S结构的应用程序
+
+</ul>
+
+<h3 id="toc_1.6.4">6.4 System V IPC</h3>
+
+<ul>
+<li>
+核心概念理解：信号量集（semaphore set)、 共享内存、消息队列
+
+<li>
+比较：分别用FIFO，消息队列，共享内存实现C/S结构的程序
+
+</ul>
+
+<h2 id="toc_1.7">7 Daemon</h2>
+
+<h3 id="toc_1.7.1">7.1 了解</h3>
+
+<ul>
+<li>
+核心概念理解
+
+<li>
+实现即使（why &amp; how）——脱离控制终端；日志的问题
+
+</ul>
+
+<h3 id="toc_1.7.2">7.2 了解</h3>
+
+<p>
+一些常用的daemon： xinetd，telnetd，ftpd，sshd
+</p>
+
+<h2 id="toc_1.8">8 线程</h2>
+
+<h3 id="toc_1.8.1">8.1 了解</h3>
+
+<ul>
+<li>
+POSIX线程
+
+<li>
+pthread_create, pthread_exit, pthread_join, pthread_detach
+
+<li>
+线程属性
+
+<li>
+线程的通信和同步
+
+</ul>
+
+<h2 id="toc_1.9">9 Socket与网络编程——了解</h2>
+
+<h3 id="toc_1.9.1">9.1 网络基础</h3>
+
+<ul>
+<li>
+TCP/IP review
+
+<li>
+两个命令 netstat, ifconfig
+
+</ul>
+
+<h3 id="toc_1.9.2">9.2 socket基础</h3>
+
+<ul>
+<li>
+connection五元组&lt; 协议、本地地址、本地端口、远程地址、远程端口&gt;
+
+<li>
+socket三元组&lt;协议、本地地址、本地端口&gt;
+
+<li>
+三种socket（流套接字、数据报套接字、原始套接字）；服务器需要调用bind系统调用
+
+</ul>
+
+<h3 id="toc_1.9.3">9.3 socket程序设计模型</h3>
+
+<ul>
+<li>
+基于连接的通信、无连接的通信；
+
+<li>
+了解：两种模型的比较。无连接的通信的应用范围？要考虑哪些因素？
+
+</ul>
+
+<h2 id="toc_1.10">10 Socket与网络编程——理解及应用</h2>
+
+<h3 id="toc_1.10.1">10.1 多客户的问题</h3>
+
+<ul>
+<li>
+多进程、多线程
+
+<li>
+5中I/O模式：阻塞模式、非阻塞模式、多路复用I/O、信号驱动的I/O，异步I/O模式
+
+</ul>
+
+<h3 id="toc_1.10.2">10.2 一个应用实例</h3>
+
+<p>
+超级服务器：inetd或xinetd；
+</p>
+
+<h2 id="toc_1.11">11 UI——了解</h2>
+
+<h3 id="toc_1.11.1">11.1 规范模式和非规范模式；struct termios</h3>
+
+<ul>
+<li>
+/dev/tty
+
+<li>
+terminfo库, TERM环境变量
+
+<li>
+ncurses库
+
+</ul>
+
+<h3 id="toc_1.11.2">11.2 X Window System</h3>
+ 
+<ul>
+<li>
+XFree86；X Window体系结构(四部分)；
+
+<li>
+X Toolkit
+
+<li>
+GUI的编程方法：KDE/Qt, GNOME/GTK+, Tk；比较分析(纵向/横向)？
+
+</ul>
+
 </body>
 </html>

@@ -32,3 +32,5 @@
 
 ==Diary==
 
+== Test ==
+* [[test|Test]]

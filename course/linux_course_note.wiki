@@ -1,1 +1,220 @@
 = Linux笔记 =
+
+== Linux基础与使用——了解 ==
+
+=== Linux& UNIX; UNIX 标准化；UNIX哲学 ===
+
+* 一些缩写：GPL，BSD，POSIX，VFS
+* 了解：GNU与Linux
+
+=== UNIX的系统结构 ===
+
+* Two interfaces
+* 文件管理子系统和进程管理子系统
+
+=== Linux的目录树 ===
+
+* FHS 重要目录：/home: /bin: /sbin: /usr: /dev: /etc: /proc:
+* 环境变量：PATH, HOME, etc (export命令)
+
+=== 常用命令与工具 ===
+
+* 文件操作：touch, mkdir, ls, more, mv, chmod, tar, find, grep, ar, dd;
+* 进程管理：ps, pstree, kill, nice, jobs, fg, bg;
+* 编辑器：vi, emacs;
+* 编译、链接、调试：gcc, gdb, make工具
+* 库管理工具：ar
+* 用man和info查看帮助
+
+== Shell Programming ==
+
+=== 执行shell脚本的几种方式 ===
+
+    built-in command
+
+=== 管道和重定向；后台执行 ===
+
+=== 变量；简单的语句：条件测试（test），分支控制(if, case)，循环语句（for, while) ===
+
+=== 语句块： &&, || 等 ===
+
+=== Shell的实现 ===
+
+== 文件操作管理——基础 ==
+
+=== 文件系统 ===
+
+* VFS; 7种文件类型；文件结构（无结构的字符流）；目录；
+* 索引节点（i-node）
+* 链接与符号链接（ln，ln -S）
+* 可装卸的文件系统（mount/umount）
+
+=== 常用系统调用 ===
+
+* 基本操作：open，close，read，write，lseek
+* dup，dup2 （多进程，重定向）
+* fcntl（改变文件的属性，如阻塞/非阻塞等；文件中的区域锁）
+
+=== 与文件属性相关的操作 ===
+
+* stat/lstat/fstat函数和struct stat结构
+* umask, chmod, chown等
+
+=== 与目录相关的操作 ===
+
+* 目录也是文件（DIR结构，对应文件流之FILE结构）；目录项（struct dirent）
+* opendir/closedir, readdir, telldir, seekdir
+
+=== 标准I/O库 ===
+
+* 流的打开和关闭： fopen，fclose
+* 流的读写：fread，fwrite
+* 刷新流：fflush
+* 流的定位：fseek
+* 单字节输入输出：fgetc/getc/getchar, fputc/putc/putchar
+* 格式化输入输出：scanf/fscanf/sscanf, printf/fprintf/sprintf
+
+=== 文件流和文件描述符的关系 ===
+
+* int fileno(FILE *fp);
+* FILE *fdopen(int fildes, const char *mode);
+
+== 数据管理及其他——了解 ==
+
+=== UNIX的变成风格和错误处理 ===
+
+extern int error; perror函数
+
+=== 锁文件和文件的区域锁 ===
+
+open 系统调用 O_EXCL选项， fcntl
+
+=== 系统数据文件 ===
+
+* /etc/passwd, /etc/group, /etc/shadow, /etc/services 等
+* passwd命令的特殊性
+
+== 进程管理 ==
+
+=== 基础知识 ===
+
+* 什么是进程；进程控制块(Linux 源代码中struct task_struct 数据结构) 回顾、复习、了解
+* 进程的启动和终止(main函数，C程序的内存布局，exit和_exit)
+* ps和pstree命令，init进程
+
+=== 四个基本的系统调用 ===
+
+* fork, exec, wait, exit; 编写一个简单的shell
+* Zombie的出现和消除
+
+=== Question：父子进程间的race condition怎么解决？ ===
+
+* 信号的解决方案，pipe的解决方案
+* Semaphore的解决方案
+
+=== 信号的概念 ===
+
+* 一些常用的信号（ctrl-c: SIGINT; ctrl-\: SIGQUIT; ctrl-z: SIGTSTP)
+* 对信号的处理方式（3种）：忽略信号（不能忽略的信号：SIGKILL， SIGSTOP；一些硬件异常信号）；捕捉信号；执行系统默认动作
+
+=== 关于信号的系统调用 ===
+
+* signal, sigaction;
+* kill, raise; alarm, pause (kill函数和kill命令)
+* 理解：进入信号阻塞、信号集(sigset_t)的概念，信号掩码
+* sigprocmask, sigpending, sigsuspend, sigaction （用信号机制解决race condition)
+
+== 进程间通信 ==
+
+=== 进程通信的方法？ 广义为—— ===
+
+* 共享文件
+* 父子进程间的wait/exit
+* 信号
+* pipe
+* FIFO
+* System V IPC (semaphore set, message queue, shared memory)
+* socket
+
+=== 管道 ===
+
+* 系统调用pipe（先pipe后fork）；管道的读写（同步）
+* Question：用pipe实现popen，pclose；用pipe实现shell中的重定向和管道；
+
+=== 命名管道 ===
+
+* mkfifo(mknod) 命令和mkfifo(mknod)函数
+* FIFO 的打开和读写（同步）
+* 用FIFO实现C/S结构的应用程序
+
+=== System V IPC ===
+
+* 核心概念理解：信号量集（semaphore set)、 共享内存、消息队列
+* 比较：分别用FIFO，消息队列，共享内存实现C/S结构的程序
+
+== Daemon ==
+
+=== 了解 ===
+
+* 核心概念理解
+* 实现即使（why & how）——脱离控制终端；日志的问题
+
+=== 了解 ===
+
+一些常用的daemon： xinetd，telnetd，ftpd，sshd
+
+== 线程 ==
+
+=== 了解 ===
+
+* POSIX线程
+* pthread_create, pthread_exit, pthread_join, pthread_detach
+* 线程属性
+* 线程的通信和同步
+
+== Socket与网络编程——了解 ==
+
+=== 网络基础 ===
+
+* TCP/IP review
+* 两个命令 netstat, ifconfig
+
+=== socket基础 ===
+
+* connection五元组< 协议、本地地址、本地端口、远程地址、远程端口>
+* socket三元组<协议、本地地址、本地端口>
+* 三种socket（流套接字、数据报套接字、原始套接字）；服务器需要调用bind系统调用
+
+=== socket程序设计模型 ===
+
+* 基于连接的通信、无连接的通信；
+* 了解：两种模型的比较。无连接的通信的应用范围？要考虑哪些因素？
+
+== Socket与网络编程——理解及应用 ==
+
+=== 多客户的问题 ===
+
+* 多进程、多线程
+* 5中I/O模式：阻塞模式、非阻塞模式、多路复用I/O、信号驱动的I/O，异步I/O模式
+
+=== 一个应用实例 ===
+
+超级服务器：inetd或xinetd；
+
+== UI——了解 ==
+
+=== 规范模式和非规范模式；struct termios ===
+
+* /dev/tty
+* terminfo库, TERM环境变量
+* ncurses库
+
+=== X Window System ===
+ 
+* XFree86；X Window体系结构(四部分)；
+* X Toolkit
+* GUI的编程方法：KDE/Qt, GNOME/GTK+, Tk；比较分析(纵向/横向)？
+
+
+
+
