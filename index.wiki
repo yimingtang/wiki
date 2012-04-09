@@ -8,6 +8,8 @@
 
 * [[programming/network_programming|Network Programming]]
 
+* [[programming/data_structure_and_algorithm|数据结构与算法]]
+
 ==Course Note==
 
 * [[course/linux_course_note|Linux程序设计]]
@@ -23,14 +25,9 @@
 ==Blog==
 
 * [[blog/hp_veer_and_webos_2|看上去很美——HP Veer和传说中的webOS（二）]]
-
 * [[blog/share_web_dev_tools|一些好用的HTML、CSS开发工具]]
-
 * [[blog/vimwiki|个人知识管理工具：vimwiki]]
-
-* [[blog/test|Test]]
-
+* [[blog/android_dev_2|Android开发笔记——圆角和边框们]]
 ==Diary==
 
 == Test ==
-* [[test|Test]]
