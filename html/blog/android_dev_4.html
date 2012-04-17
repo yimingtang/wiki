@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Android开发笔记——ListView的零零碎碎</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<div class="toc">
+<ul>
+<li><a href="#toc_1"> Android开发笔记——ListView的零零碎碎</a>
+<ul>
+<li><a href="#toc_1.1">1 下拉刷新</a>
+<li><a href="#toc_1.2">2 Quick Action</a>
+<li><a href="#toc_1.3">3 Android控件大杂烩</a>
+<li><a href="#toc_1.4">4 带圆角的ListView</a>
+<ul>
+<li><a href="#toc_1.4.1">4.1 给ListView整体设置一个带圆角的background</a>
+<li><a href="#toc_1.4.2">4.2 给ListView设置padding，给每一个条目分别设置background</a>
+</ul>
+<li><a href="#toc_1.5">5 题外话</a>
+</ul>
+</ul>
+</div>
+
+<h1 id="toc_1"> Android开发笔记——ListView的零零碎碎</h1>
+
+<p>
+在数据流型的移动应用中，列表在数据展示上作用很大。随便拿个微博或SNS应用，你就能发现自己接触的多是列表。
+列表承担了责任，他们包括数据展示，对特定对象的快捷操作等。我在写Android作业是也收集了一些零零碎碎的东西，
+在此一并分享出来吧。
+</p>
+
+<h2 id="toc_1.1">1 下拉刷新</h2>
+
+<p>
+下拉刷新目前已经是数据流APP的标配了。Android没有原生的下拉刷新控件支持，但只要你想没有不可能。
+某老外放出了一个下拉刷新的实现代码。请<a href="https://github.com/johannilsson/android-pulltorefresh">猛击这里</a>
+还有人为他写了一个简单的<a href="http://sharedstate.net/archives/pull-to-refresh">指南</a>。
+</p>
+
+<h2 id="toc_1.2">2 Quick Action</h2>
+
+<p>
+Quick Action或许可以称为快捷动作，意思是点击list的item后出现一个动作栏，提供快捷的操作。
+唔……其实和context menu差不多啦，不过么……这个看上去绚一点。
+</p>
+
+<p>
+教程在<a href="http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/">这里</a>。
+</p>
+
+<h2 id="toc_1.3">3 Android控件大杂烩</h2>
+
+<p>
+一直很希望能找到一个介绍各种Android UI pattern的网站，现在这里面前有一个。
+<a href="http://www.androiduipatterns.com/p/android-ui-pattern-collection.html">http://www.androiduipatterns.com/p/android-ui-pattern-collection.html</a>
+</p>
+
+<p>
+要是在完整一点，整理好一点那就更完美了。
+</p>
+
+<p>
+吾记得国人做过一个iOS的，有兴趣的同学去查查。
+</p>
+
+<h2 id="toc_1.4">4 带圆角的ListView</h2>
+
+<p>
+圆角流行很久了，给ListView加上圆角会很酷。例如下面这个样子。
+</p>
+
+
+<p>
+实现方法有好几种：
+</p>
+
+<h3 id="toc_1.4.1">4.1 给ListView整体设置一个带圆角的background</h3>
+    
+<p>
+在XML文件里你或许会这么做
+</p>
+
+<p>
+android:background = "@drawable/bg_list"
+</p>
+
+<p>
+bg_list便是你定义的可以自适应大小的圆角图。具体做法你可以参看我的上
+<a href="http://xianqu.org/2012/04/android-border…radius-corners/">一篇文章</a>
+</p>
+
+<p>
+这是我们最容易想到的一种解决方案。在很多时候它能起到作用。
+</p>
+
+<p>
+但是要应对上面的那种样子好像不太容易哦，怎么让scroll跑外面去？listview是占
+整个屏幕的宽度还是要做一个margin？
+</p>
+
+<p>
+唔，想来想去，好像只能这么干。
+</p>
+
+<p>
+等你实际运行一下你就发现——坑爹了。这个listview的background就和一个相框一样，
+而不是我们想要的那种：让整个list看上去像带圆角的卡片。此外，你的scroll也不是在
+屏幕的边缘，而是随listview过去了。当然，你可以在listview外面加一个ScrollLayout，
+但请相信我，那样还是起不了什么大作用。
+</p>
+
+<p>
+所以，这个解决方案适合什么情况呢？ 当你需要做一个内部能滑动的带圆角的框体。
+</p>
+
+<h3 id="toc_1.4.2">4.2 给ListView设置padding，给每一个条目分别设置background</h3>
+
+<p>
+在曾逆向工程过Twitter for Android 想看看它们是怎么实现这样的卡片ListView的。我拿
+到了XML文件，我发现他们用了一个自定义的"CardView"，尼玛这得看Java源码。但反编译
+出来的结果甚是坑爹，我只能放弃。
+</p>
+
+<p>
+后来我自己研究了一下，找了个替代方案。
+</p>
+
+<p>
+基本思想是在ListView的Adapter的getView()函数里，根据position动态设置每个item的background。
+如，如果是第一个item，就给他一个顶部是圆角的背景。如果是当中的item，则给一个不带圆角的背景。
+如果是底部的item，就给一个底部带圆角的背景。
+</p>
+
+<p>
+实现代码片段如下：
+</p>
+<pre>
+public class MyAdapter extends ArrayAdapter&lt;String&gt; {
+
+    // other methods...
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        View view;
+        if (convertView != null) {
+            view = convertView;
+            holder = (ViewHolder) view.getTag();
+        } else {
+            view = inflater.inflate(R.layout.list_item_view, parent, false);
+            holder = new ViewHolder();
+            holder.source = (TextView) view.findViewById(R.id.text);
+            view.setTag(holder);
+        }
+
+        // 加载要显示的数据
+        holder.text.setText(getItem(position));
+
+        // 动态设置item的background
+        if (position == 0) {
+            holder.layout.setBackgroundResource(R.drawable.bg_list_row_top_selector);
+        } else if(position == getCount() -1){
+            holder.layout.setBackgroundResource(R.drawable.bg_list_row_bottom_selector);
+        }else{
+            holder.layout.setBackgroundResource(R.drawable.bg_list_row_middle_selector);
+        }
+
+        return view;
+
+    }
+
+    private static class ViewHolder {
+        RelativeLayout layout;
+        TextView text;          //比如我们的item里只有一个TextView
+    }
+
+}
+</pre>
+
+<p>
+每个item 背景的selector，如顶部item的背景
+</p>
+
+<pre>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;selector xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+    &lt;item android:drawable="@drawable/bg_list_row_top_pressed" android:state_pressed="true"/&gt;
+    &lt;item android:drawable="@drawable/bg_list_row_top_focused" android:state_focused="true"/&gt;
+    &lt;item android:drawable="@drawable/bg_list_row_top_focused" android:state_selected="true"/&gt;
+    &lt;item android:drawable="@drawable/bg_list_row_top"/&gt;
+&lt;/selector&gt;
+</pre>
+
+<p>
+bg_list_row_top.xml文件
+</p>
+
+<pre>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;layer-list xmlns:android="http://schemas.android.com/apk/res/android" &gt;
+
+    &lt;item&gt;
+        &lt;shape android:shape="rectangle" &gt;
+            &lt;stroke
+                android:width="1dp"
+                android:color="#cccccc" /&gt;
+            &lt;corners
+                android:topLeftRadius="10.0dip"
+                android:topRightRadius="10.0dip" /&gt;
+        &lt;/shape&gt;
+    &lt;/item&gt;
+
+    &lt;item
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp"&gt; &lt;!-- 注意，我给bottom设偏移是为了充当分割线 --!&gt;
+
+        &lt;shape android:shape="rectangle" &gt;
+            &lt;solid android:color="#ffffff" /&gt;
+
+            &lt;corners
+                    android:topLeftRadius="8.0dip"
+                    android:topRightRadius="8.0dip" /&gt;
+        &lt;/shape&gt;
+    &lt;/item&gt;
+
+&lt;/layer-list&gt;
+</pre>
+
+<p>
+其他的几种状态如focused, pressed请自己脑补。
+</p>
+
+<p>
+你的ListView需要占满屏幕，并且可以做如下属性设置
+</p>
+
+<pre>
+&lt;ListView
+    android:id="@android:id/list"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="10.0dp"
+    android:paddingRight="10.0dp"
+    android:scrollbarStyle="outsideOverlay" &lt;!-- 让scroll块至于list最外面 --&gt;
+    android:background ="#ffe4e4e4"
+    android:fadingEdge" ="none"
+    android:listSelector="#00000000"
+    android:drawSelectorOnTop="false"
+    android:cacheColorHint="#ffe4e4e4"
+    android:divider="@null"
+    android:dividerHeight="0.0px"
+/&gt;
+</pre>
+
+<h2 id="toc_1.5">5 题外话</h2>
+
+<p>
+上个礼拜我的博客已经搬到新的VPS上了。访问起来应该比以前稳定咯。为了充分利用这个VPS，
+我也会加大更新频率。
+</p>
+
+<p>
+另外，明天微软实习生面试，攒RP。
+</p>
+
+</body>
+</html>

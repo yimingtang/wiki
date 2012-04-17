@@ -19,7 +19,7 @@
 * [[course/ims_note|管理信息系统]]
 
 * [[course/android_note|Android移动互联网]]
-
+ 
 * [[course/testing_note|软件测试]]
 
 ==Blog==
@@ -28,6 +28,9 @@
 * [[blog/share_web_dev_tools|一些好用的HTML、CSS开发工具]]
 * [[blog/vimwiki|个人知识管理工具：vimwiki]]
 * [[blog/android_dev_2|Android开发笔记——圆角和边框们]]
+* [[blog/android_dev_3|Android开发笔记——带圆角的ListView]]
+* [[blog/android_dev_4|Android开发笔记——ListView的零零碎碎]]
+
 ==Diary==
 
 == Test ==

@@ -1,0 +1,8 @@
+%title Android开发笔记——带圆角的ListView
+%toc
+
+= Android开发笔记——带圆角的ListView =
+
+在话题开始前，先让我们看看Twitter for Android的时间线是长什么样的吧。
+
+要让ListView带圆角，或许你首先会想到给ListView设一个带圆角的背景。
