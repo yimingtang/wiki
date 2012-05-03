@@ -25,11 +25,18 @@
 ==Blog==
 
 * [[blog/hp_veer_and_webos_2|看上去很美——HP Veer和传说中的webOS（二）]]
+
 * [[blog/share_web_dev_tools|一些好用的HTML、CSS开发工具]]
+
 * [[blog/vimwiki|个人知识管理工具：vimwiki]]
+
 * [[blog/android_dev_2|Android开发笔记——圆角和边框们]]
+
 * [[blog/android_dev_3|Android开发笔记——带圆角的ListView]]
+
 * [[blog/android_dev_4|Android开发笔记——ListView的零零碎碎]]
+
+* [[blog/can_you_write_better_with_more_time|多一点时间，你能写得更好吗？]]
 
 ==Diary==
 
